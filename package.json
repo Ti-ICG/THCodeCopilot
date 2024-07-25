@@ -1,0 +1,19 @@
+{
+  "name": "writer",
+  "version": "1.0.0",
+  "description": "The AI powered documentation writer",
+  "main": "server/index.ts",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mintlify/vscode-writer.git"
+  },
+  "author": "Mintlify",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mintlify/vscode-writer/issues"
+  },
+  "homepage": "https://github.com/mintlify/vscode-writer#readme"
+}

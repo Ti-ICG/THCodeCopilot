@@ -1,0 +1,300 @@
+{
+  "name": "th-code-assistant",
+  "displayName": "天河代码助手",
+  "description": "为JavaScript, Python, Java, Typescript和所有其他语言编写AI支持的文档",
+  "icon": "assets/icon.png",
+  "version": "1.0.0-beta4",
+  "publisher": "tianhecloud",
+  "keywords": [
+    "documentation",
+    "typescript",
+    "javascript",
+    "python",
+    "nodejs",
+    "c",
+    "c++",
+    "csharp",
+    "php",
+    "dart",
+    "ruby",
+    "jsdoc",
+    "docblock",
+    "doxygen",
+    "xml",
+    "intellicode",
+    "ai",
+    "java",
+    "javadoc",
+    "go",
+    "godoc",
+    "rust",
+    "rustdoc"
+  ],
+  "repository": {
+    "url": "https://github.com/vCloudSail/CodeSpecificationTool.git"
+  },
+  "galleryBanner": {
+    "color": "#041811",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.63.0"
+  },
+  "categories": [
+    "Machine Learning",
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:th.code.comment.generate",
+    "onCommand:th.code.interpretation.generate",
+    "onCommand:docs.logout"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "th.code.comment.generate",
+        "title": "生成说明文档"
+      },
+      {
+        "command": "th.code.interpretation.generate",
+        "title": "生成逐行注释"
+      },
+      {
+        "command": "th.code.completion",
+        "title": "代码补全"
+      },
+      {
+        "command": "docs.portal",
+        "title": "Manage account"
+      },
+      {
+        "command": "docs.login",
+        "title": "Login to account"
+      },
+      {
+        "command": "docs.logout",
+        "title": "Logout to account"
+      }
+    ],
+    "keybindings": [],
+    "menus": {
+      "editor/context": [
+        {
+          "group": "navigation",
+          "submenu": "thCodeSpecificationTool"
+        }
+      ],
+      "explorer/context": [
+        {
+          "group": "navigation",
+          "submenu": "thCodeSpecificationTool"
+        }
+      ],
+      "thCodeSpecificationTool": [
+        {
+          "command": "th.code.comment.generate",
+          "when": "(explorerViewletFocus && resourceLangId =~ /typescript|javascript|python|php|java|c|cpp|csharp|dart|ruby|go|rust/) || (editorTextFocus && editorLangId =~ /typescript|javascript|python|php|java|c|cpp|csharp|dart|ruby|go|rust/)"
+        },
+        {
+          "command": "th.code.interpretation.generate",
+          "when": "(explorerViewletFocus && resourceLangId =~ /typescript|javascript|python|php|java|c|cpp|csharp|dart|ruby|go|rust/) || (editorTextFocus && editorLangId =~ /typescript|javascript|python|php|java|c|cpp|csharp|dart|ruby|go|rust/)"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "thCodeSpecificationTool",
+        "label": "天河代码助手"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mintdocs",
+          "title": "天河代码助手",
+          "icon": "assets/outline.png"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "docs",
+        "contents": "[✍️ 生成文档/注释)](command:th.code.comment.generate)\nPowered by [天河国云](https://tianhecloud.com)"
+      }
+    ],
+    "views": {
+      "mintdocs": [
+        {
+          "id": "docs",
+          "name": "生成文档/注释"
+        },
+        {
+          "id": "formatOptions",
+          "name": "注释生成格式"
+        },
+        {
+          "id": "progress",
+          "name": "文档进展跟踪",
+          "when": "editorIsOpen"
+        },
+        {
+          "id": "languageOptions",
+          "name": "语言"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "天河代码助手",
+      "properties": {
+        "docwriter.style": {
+          "type": "string",
+          "default": "Auto-detect",
+          "enum": [
+            "Auto-detect",
+            "JSDoc",
+            "reST",
+            "NumPy",
+            "DocBlock",
+            "Doxygen",
+            "Javadoc",
+            "GoDoc",
+            "RustDoc",
+            "XML",
+            "Google",
+            "Custom"
+          ],
+          "enumDescriptions": [
+            "Automatically configured based on the language",
+            "The conventional document format for JavaScript",
+            "The conventional reStructured text documentation format for Python",
+            "The conventional NumPy documentation format for Python",
+            "A documentation format for PHP",
+            "The de facto standard tool for generating documentation for C++ and C",
+            "The conventional documentation format for Java",
+            "The conventional documentation format for Go",
+            "The unofficial documentation format for Rust",
+            "The conventional documentation format for C# in XML",
+            "Format from the Google Python Style Guide",
+            "Custom template based on your own style and preferences"
+          ],
+          "description": "The format style of documents generated"
+        },
+        "docwriter.custom.template": {
+          "type": "string",
+          "default": "{{summary}}\n{{#params}}\n@param {{name}} ({{type}}) - {{paramExplained}}\n{{/params}}\n{{#returnExplained}}\n@returns {{.}}\n{{/returnExplained}}\n\nGenerated on {{date}}",
+          "markdownDescription": "Format using [mustache template syntax](https://mustache.github.io/mustache.5.html)\n\n‎\n\n`{{summary}}`: summary of the function\n\n`{{#params}}`\n\n`{{name}}`: name of the parameter - `{{type}}`: type of the parameter - `{{defaultValue}}`: default parameter value - `{{paramExplained}}`: summary of the parameter\n\n`{{/params}}`\n\n`{{returnExplained}}`: description of the return value\n\n`{{author}}`: name of the author\n\n`{{date}}`: the current date (in dd/mm/yyyy)",
+          "editPresentation": "multilineText"
+        },
+        "docwriter.custom.author": {
+          "type": "string",
+          "markdownDescription": "Set the name of the author. Replaces `{{author}}`"
+        },
+        "docwriter.progress.trackFunctions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Toggle to include functions in documentation progress tracking"
+        },
+        "docwriter.progress.trackMethods": {
+          "type": "boolean",
+          "default": true,
+          "description": "Toggle to include methods in documentation progress tracking"
+        },
+        "docwriter.progress.trackClasses": {
+          "type": "boolean",
+          "default": false,
+          "description": "Toggle to include classes in documentation progress tracking"
+        },
+        "docwriter.progress.trackTypes": {
+          "type": "boolean",
+          "default": false,
+          "description": "Toggle to include type definitions in documentation progress tracking"
+        },
+        "docwriter.language": {
+          "type": "string",
+          "default": "Chinese",
+          "enum": [
+            "English",
+            "Chinese"
+          ],
+          "enumDescriptions": [
+            "English",
+            "中文"
+          ],
+          "description": "Toggle to specify the language of the generated documentation"
+        },
+        "docwriter.hotkey.mac": {
+          "type": "string",
+          "default": "⌘ + .",
+          "enum": [
+            "⌘ + .",
+            "⌥ + ."
+          ],
+          "enumDescriptions": [
+            "Command + .",
+            "Option + ."
+          ],
+          "description": "The hotkey used for generating documentation (only for Macs)"
+        },
+        "docwriter.hotkey.windows": {
+          "type": "string",
+          "default": "Ctrl + .",
+          "enum": [
+            "Ctrl + .",
+            "Alt + ."
+          ],
+          "enumDescriptions": [
+            "Control + .",
+            "Alt + ."
+          ],
+          "description": "The hotkey used for generating documentation (only for Windows/Linux)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "package:vsix": "npm run package && vsce package --baseContentUrl https://github.com/vCloudSail/CodeSpecificationTool.git",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "publish": "npm run package && vsce publish && npx ovsx publish -p $OVSX_KEY",
+    "clear": "rimraf node_modules && rimraf ./package-lock.json && rimraf .eslintcache && rimraf pnpm-lock.yaml && rimraf yarn.lock",
+    "reinstall": "npm run clear && yarn"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.4",
+    "@types/lodash": "^4.17.5",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "14.x",
+    "@types/vscode": "^1.63.0",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "@vscode/test-electron": "^1.6.2",
+    "eslint": "^8.1.0",
+    "glob": "^7.1.7",
+    "mocha": "^9.1.3",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.4.4",
+    "vsce": "^2.5.3",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.8.0"
+  },
+  "dependencies": {
+    "@gradio/client": "1.2.1",
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "axios": "^0.24.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21"
+  },
+  "vsce": {
+    "node-env": {
+      "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+    }
+  }
+}
